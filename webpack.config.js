@@ -7,9 +7,9 @@ module.exports = {
   devtool: "source-map",
   entry: ["babel-polyfill", "./index"],
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "gh-pages"),
     filename: "bundle.js",
-    publicPath: "/dist/"
+    publicPath: "/"
   },
   plugins: [
     new webpack.NoErrorsPlugin()

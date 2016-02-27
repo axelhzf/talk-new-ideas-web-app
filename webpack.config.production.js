@@ -9,7 +9,7 @@ module.exports = {
     "./index"
   ],
   output: {
-    path: path.join(__dirname, "gh-pages", "dist"),
+    path: path.join(__dirname, "gh-pages"),
     filename: "bundle.js"
   },
   plugins: [
@@ -26,22 +26,29 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [{ 
-      test: /\.md$/,
-      loader: "html-loader!markdown-loader?gfm=false"
-    }, {
-      test: /\.(js|jsx)$/,
-      exclude: [/node_modules/, /gists/],
-      loader: "babel-loader"
-    }, {
-      test: /\.css$/,
-      loader: "style-loader!css-loader"
-    }, {
-      test: /\.(png|jpg)$/,
-      loader: "url-loader?limit=8192"
-    }, {
-      test: /\.svg$/,
-      loader: "url?limit=10000&mimetype=image/svg+xml"
-    }]
+    loaders: [
+      {
+        test: /\.md$/,
+        loader: "html-loader!markdown-loader?gfm=false"
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: [/node_modules/, /gists/],
+        loader: "babel-loader"
+      },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "url-loader?limit=8192"
+      },
+      {
+        test: /\.svg$/,
+        loader: "file-loader",
+        path: "dist"
+      }
+    ]
   }
 };
