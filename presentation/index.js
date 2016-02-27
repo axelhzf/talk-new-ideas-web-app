@@ -31,103 +31,115 @@ import preloader from "spectacle/lib/utils/preloader";
 import createTheme from "spectacle/lib/themes/default";
 
 // Require CSS
-require("normalize.css");
-require("spectacle/lib/themes/default/index.css");
 
 const images = {
-
+  virtualDom: require("./images/virtual-dom.svg"),
+  virtualDom2: require("./images/virtual-dom2.svg"),
+  immutable: require("./images/immutable.svg"),
+  mvc: require("./images/mvc.svg"),
+  mvcComplex: require("./images/mvc-complex.svg"),
+  redux: require("./images/redux.svg")
 };
-
-//preloader(images);
+preloader(images);
 
 const theme = createTheme({
-  primary: "#474F57",
-  secondary: "#FFF7EF",
-  tertiary: "#88D4FD",
-  quartenary: "#787C7F"
+  primary: "#232323", //black
+  secondary: "#FFFFFF", //white
+  tertiary: "#34D5FF", //blue
+  quartenary: "#787C7F" //gray
+}, {
+  primary: "Open Sans Condensed",
+  secondary: "Open Sans Condensed",
+  tertiary: "monospace"
 });
 
 export default class Presentation extends React.Component {
   render() {
     return (
       <Spectacle theme={theme}>
-        <Deck transition={["slide"]} transitionDuration={200}>
-          <Slide bgColor="bg">
-            <Heading size={1} fit caps lineHeight={1} textColor="secondary">
+        <Deck transition={["slide"]} transitionDuration={100} progress="bar">
+          <Slide>
+            <Heading size={1} fit caps lineHeight={1} textColor="tertiary">
               New ideas on
             </Heading>
             <Heading size={2} fit caps lineHeight={1} textColor="secondary">
               Web App Development
             </Heading>
-            <Heading size={2} textColor="tertiary">
+            <Heading size={2} textColor="quartenary">
               (Maybe not so new)
             </Heading>
           </Slide>
 
-          <Slide transition={["slide"]}>
-
-            <Heading size={2} cap>
+          <Slide>
+            <Heading size={3} caps textColor="secondary">
               Problem #1:
             </Heading>
-
-            <Heading size={2} caps fit>
+            <Heading size={2} caps fit textColor="tertiary">
               DOM Updates
             </Heading>
-
           </Slide>
 
-          <Slide transition={["slide"]}>
-            <Heading>DOM Update</Heading>
+          <Slide>
+            <Heading caps>DOM Creation</Heading>
             <Layout>
               <Fill>
                 <CodePane lang="js" source={require("raw!./gists/dom-updates.js")}/>
               </Fill>
               <Fill>
-                <Text>TODO IMAGE</Text>
+                <CodePane lang="html" source={require("raw!./gists/dom-updates.html")}/>
               </Fill>
             </Layout>
           </Slide>
 
           <Slide>
-            <Heading fit>How to update the DOM when the model has change?</Heading>
-            <CodePane lang="js" source={require("raw!./gists/dom-updates2.js")}/>
+            <Heading fit caps>How to update the DOM?</Heading>
+            <Layout>
+              <Fill>
+                <CodePane lang="js" source={require("raw!./gists/dom-updates2.js")}/>
+              </Fill>
+              <Fill>
+                <CodePane lang="html" source={require("raw!./gists/dom-updates2.html")}/>
+              </Fill>
+            </Layout>
           </Slide>
 
           <Slide>
-            <Heading fit>Update DOM strategies</Heading>
+            <Heading fit caps>Update DOM strategies</Heading>
             <List>
-              <ListItem>Minimal DOM Updates</ListItem>
-              <ListItem>Recreate the whole DOM</ListItem>
+              <ListItem>Detect what has changed and update the DOM</ListItem>
+              <ListItem>Re-render everything</ListItem>
             </List>
           </Slide>
 
           <Slide>
-            <Heading fit>Minimal DOM Updates</Heading>
+            <Heading fit caps>Detect changes</Heading>
             <List>
-              <ListItem>Used by frameworks like Angular ($scope.$digest)</ListItem>
+              <ListItem>Used by frameworks like Angular</ListItem>
               <ListItem>How to detect changes on big and complex data structures?</ListItem>
-              <ListItem>$watchers can mutate the $scope, $digest need to run until nothing change</ListItem>
+              <ListItem><code>$digest</code> cycle to detect changes</ListItem>
+              <ListItem><code>$watchers</code> can mutate the <code>$scope</code>, <code>$digest</code> needs to run until nothing change</ListItem>
             </List>
           </Slide>
 
           <Slide>
+            <Heading caps><code>$digest</code> cycle</Heading>
             <CodePane lang="js" source={require("raw!./gists/dom-updates3.js")}/>
            </Slide>
 
           <Slide>
-            <Heading>$digest performance</Heading>
+            <Heading caps>Performance</Heading>
             <List>
               <ListItem>Anything faster than 50 ms is imperceptible</ListItem>
               <ListItem>Around 2000 bindings is where you start to see problems</ListItem>
               <ListItem>The data binding can cause performance issues on complex pages.</ListItem>
             </List>
-            <p><small>http://stackoverflow.com/questions/9682092/how-does-data-binding-work-in-angularjs/9693933#9693933</small></p>
+            <p><small><a href="http://stackoverflow.com/questions/9682092/how-does-data-binding-work-in-angularjs/9693933#9693933">http://stackoverflow.com/questions/9682092/how-does-data-binding-work-in-angularjs/9693933#9693933</a></small></p>
           </Slide>
 
           <Slide>
-            <Heading>Strategy #2: Recreate the whole DOM</Heading>
+            <Heading caps fit>Re-render everything</Heading>
             <List>
-              <ListItem>React interface</ListItem>
+              <ListItem>Used by frameworks like React</ListItem>
               <ListItem>When the model update, the whole application is rendered</ListItem>
               <ListItem>React doesn't need to know what data change, only if it has changed</ListItem>
               <ListItem>Efficient DOM updates using virtual DOM</ListItem>
@@ -135,72 +147,90 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading size={2}>React DOM update</Heading>
+            <Heading caps>DOM update cycle</Heading>
             <List>
-              <ListItem>Every time data change (setState()), React calls render method</ListItem>
-              <ListItem>Render create a virtual dom representation</ListItem>
-              <ListItem>Compare the new and the old tree. <a href="https://facebook.github.io/react/docs/reconciliation.html">Reconciliation</a> </ListItem>
+              <ListItem>Every time state change <code>setState()</code>, React calls <code>render</code> method</ListItem>
+              <ListItem><code>render</code> create a <code>virtual dom</code>  representation</ListItem>
+              <ListItem>Compare the new and the old tree using <code>reconciliation</code></ListItem>
               <ListItem>Creates a batch of DOM updates</ListItem>
             </List>
           </Slide>
 
           <Slide>
-            <Heading>Reconciliation</Heading>
+            <Heading caps>Reconciliation</Heading>
             <List>
               <ListItem>Generating the minimum number of operations to transform one tree into another</ListItem>
               <ListItem>O(n<sup>3</sup>) where n is the number of nodes in the three</ListItem>
               <ListItem>React implements a non-optimal O(n) algorithm using heuristics</ListItem>
             </List>
+            <small><a href="https://facebook.github.io/react/docs/reconciliation.html">https://facebook.github.io/react/docs/reconciliation.html</a></small>
           </Slide>
 
           <Slide>
-            <Heading fit>React component counter</Heading>
-            <div>https://jsbin.com/gonaxohowi/2/edit?html,js,output</div>
+            <Image src={images.virtualDom}/>
           </Slide>
 
           <Slide>
-            <Heading fit>Pure component</Heading>
+            <Image src={images.virtualDom2}/>
+          </Slide>
+
+          <Slide>
+            <Heading caps>Virtual DOM</Heading>
             <List>
-              <ListItem>Pure component (like pure function)</ListItem>
+              <ListItem>It's fast</ListItem>
+              <ListItem>React is not the <a href="https://github.com/Matt-Esch/virtual-dom">only implementation</a></ListItem>
+              <ListItem>Render to something diferent that the DOM: string (server-side-render), native components (react-native), canvas (react-canvas) </ListItem>
+            </List>
+          </Slide>
+
+          <Slide>
+            <Heading fit>React component example</Heading>
+            <p><a target="_blank" href="https://jsbin.com/remeruqujo/edit?js,console,output">https://jsbin.com/remeruqujo/edit?js,console,output</a></p>
+          </Slide>
+
+          <Slide>
+            <Heading>Pure component</Heading>
+            <List>
+              <ListItem>Pure component like in pure function</ListItem>
               <ListItem>It renders the same result given the same props and state</ListItem>
             </List>
             <CodePane lang="js" source={require("raw!./gists/pure-component.js")}/>
           </Slide>
 
           <Slide>
-            <Heading fit>How to optimize a complex pure function?</Heading>
+            <Heading caps fit>How to optimize a complex pure function?</Heading>
             <CodePane lang="js" source={require("raw!./gists/pure-function-factorial.js")}/>
           </Slide>
 
           <Slide>
-            <Heading fit>Memoization</Heading>
+            <Heading caps>Memoization</Heading>
             <List>
               <ListItem>Store the results of expensive function calls and returning the cached result when the same inputs occur again.</ListItem>
             </List>
           </Slide>
 
           <Slide>
-            <Heading fit>Memoization</Heading>
+            <Heading caps>Memoization</Heading>
             <CodePane lang="js" source={require("raw!./gists/pure-function-factorial-memoization.js")}/>
           </Slide>
 
           <Slide>
-            <Heading>Render memoization</Heading>
+            <Heading caps fit>Render memoization</Heading>
             <CodePane lang="js" source={require("raw!./gists/render-memoization.js")}/>
           </Slide>
 
           <Slide>
-            <Heading fits>shouldComponentUpdate</Heading>
+            <Heading caps fit>shouldComponentUpdate</Heading>
             <CodePane lang="js" source={require("raw!./gists/render-memoization-shouldupdate.js")}/>
           </Slide>
 
           <Slide>
-            <Heading>Equallity problem</Heading>
+            <Heading caps fit>Equallity problem</Heading>
             <CodePane lang="js" source={require("raw!./gists/equality-problem.js")}/>
           </Slide>
 
           <Slide>
-            <Heading fit>Equality checks</Heading>
+            <Heading caps fit>Equality checks</Heading>
             <List>
               <ListItem><strong>Value equality</strong>: Primitives (number, string)</ListItem>
               <ListItem><strong>Reference equality</strong>: Arrays and Objects</ListItem>
@@ -208,7 +238,7 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading fit>Value equality for Arrays and Objects</Heading>
+            <Heading caps fit>Value equality for Arrays and Objects</Heading>
             <List>
               <ListItem>Recursive algorithm</ListItem>
               <ListItem>Data structures can have cycles (infinite loops)</ListItem>
@@ -216,12 +246,12 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>Immutability</Heading>
+            <Heading caps>Immutability</Heading>
             <CodePane lang="js" source={require("raw!./gists/immutability-implementation.js")}/>
           </Slide>
 
           <Slide>
-            <Heading>Immutability</Heading>
+            <Heading caps>Immutability</Heading>
             <List>
               <ListItem>You don't need a library to implement immutability</ListItem>
               <ListItem>Everytime you want update and object, create a new object with the new value</ListItem>
@@ -230,13 +260,26 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>Persistent Immutable Data Structures</Heading>
-            <div>TODO persisent immutable data structures diagram</div>
+            <Heading caps fit>Persistent Immutable</Heading>
+            <Heading caps fit>Data Structures</Heading>
+            <p><a href="https://www.youtube.com/watch?v=I7IdS-PbEgI">https://www.youtube.com/watch?v=I7IdS-PbEgI</a></p>
           </Slide>
 
           <Slide>
-            <Heading>Immutable.js</Heading>
+            <Heading caps fit>Structural sharing</Heading>
+            <Image src={images.immutable}/>
+          </Slide>
+
+
+          <Slide>
+            <Heading caps>Immutable.js</Heading>
             <CodePane lang="js" source={require("raw!./gists/immutable-js.js")}/>
+          </Slide>
+
+          <Slide>
+            <Heading caps fit>Extra benefits of Immutability</Heading>
+            <p>It's easy to implement complex features like undo/redo.</p>
+            <p><a target="_blank" href="https://jsbin.com/nitamunowo/edit?js,console,output">https://jsbin.com/nitamunowo/edit?js,console,output</a></p>
           </Slide>
 
           <Slide>
@@ -244,56 +287,51 @@ export default class Presentation extends React.Component {
             <List>
               <ListItem>ClojureScript interface to React</ListItem>
               <ListItem>Data structures in clojure are immutable</ListItem>
-              <ListItem>Immutable data Om can deliver even better results than using React out of the box</ListItem>
+              <ListItem>Because of Immutable data Om can deliver even better results than using React out of the box</ListItem>
             </List>
+            <p><a href="http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/</a></p>
           </Slide>
 
           <Slide>
-            <Heading>Another benefit of Immutability</Heading>
-            <p>It's easy to implement features like undo/redo.</p>
-            <p><a href="https://jsbin.com/nitamunowo/edit?js,console,output">https://jsbin.com/nitamunowo/edit?js,console,output</a></p>
+            <Heading caps size={2}>Problem #2</Heading>
+            <Heading caps fit>SPA have become </Heading>
+            <Heading caps fit>increasingly complicated</Heading>
           </Slide>
 
           <Slide>
-            <Heading>Problem #2</Heading>
-            <Heading>Single-page applications have become increasingly complicated</Heading>
-          </Slide>
-
-          <Slide>
-            <Heading>Application needs to store state</Heading>
+            <Heading>State</Heading>
             <List>
+              <ListItem>Applications needs to store complex state</ListItem>
               <ListItem>State from server responses</ListItem>
-              <ListItem>
-                State from UI
-                <List>
-                  <ListItem>Selected tab</ListItem>
-                  <ListItem>Need to show spinner?</ListItem>
-                  <ListItem>Pagination controls</ListItem>
-                </List>
-              </ListItem>
+              <ListItem>State from UI (selected tab, spinners, pagination)</ListItem>
               <ListItem>Share state beetween independent components</ListItem>
             </List>
           </Slide>
 
           <Slide>
-            <p>MVC simple</p>
+            <Heading caps>MVC</Heading>
+            <Image src={images.mvc}/>
           </Slide>
 
           <Slide>
-            <p>MVC complex</p>
+            <Heading caps fit>Real world MVC</Heading>
+            <Image src={images.mvcComplex}/>
           </Slide>
 
           <Slide>
-            When a system is opaque and non-deterministic, it’s hard to reproduce bugs or add new features
+            <BlockQuote>
+              <Quote textColor="secondary">When a system is opaque and non-deterministic, it’s hard to reproduce bugs or add new features</Quote>
+            </BlockQuote>
           </Slide>
 
           <Slide>
-            Mutation and asynchronicity create a mess.
-            We need to find a way to make our state more predictable.
+            <BlockQuote>
+            <Quote textColor="secondary">Mutation and asynchronicity create a mess. We need to find a way to make our state more predictable.</Quote>
+            </BlockQuote>
           </Slide>
 
           <Slide>
-            <Heading>Redux</Heading>
+            <Heading caps>Redux</Heading>
             <List>
               <ListItem>Inspired on flux and elm</ListItem>
               <ListItem>Minimal api</ListItem>
@@ -303,11 +341,11 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>Redux principles</Heading>
+            <Heading caps fit>Redux principles</Heading>
           </Slide>
 
           <Slide>
-            <Heading>Single source of truth</Heading>
+            <Heading caps fit>Single source of truth</Heading>
             <List>
               <ListItem>The state of the whole application is stored in an object tree within a single store</ListItem>
               <ListItem>Easy to share information across components</ListItem>
@@ -322,7 +360,7 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>State is read-only</Heading>
+            <Heading caps fit>State is read-only</Heading>
             <List>
               <ListItem>The only way to mutate the state is to emit and action, an object describing what happened.</ListItem>
               <ListItem>Views or http callbacks don't modify the state, instead they express the intention to mutate the state.</ListItem>
@@ -335,9 +373,9 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>Changes are made with pure functions</Heading>
+            <Heading caps fit>Changes are made with pure functions</Heading>
             <List>
-              <ListItem>This pure functions are called reducers</ListItem>
+              <ListItem>These pure functions are called reducers</ListItem>
             </List>
             <CodePane lang="js" source={require("raw!./gists/redux-reducer-signature.js")}/>
           </Slide>
@@ -347,18 +385,22 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            Redux diagram
-
-            action -> reducer -> store
+            <Image src={images.redux}/>
           </Slide>
 
           <Slide>
-            <Heading>Redux dev tools demo</Heading>
+            <Heading caps fit>Redux dev tools demo</Heading>
             <List>
               <ListItem>Dev tools</ListItem>
               <ListItem>Hot reloading</ListItem>
               <ListItem>Time travel debugging</ListItem>
             </List>
+            <p><a href="http://axelhzf.com/react-redux-table">http://axelhzf.com/react-redux-table</a></p>
+          </Slide>
+
+          <Slide>
+            <Heading>Questions?</Heading>
+            <Heading><a target="_blank" href="http://www.twitter.com/axelhzf">@axelhzf</a></Heading>
           </Slide>
 
         </Deck>

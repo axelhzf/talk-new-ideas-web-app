@@ -1,3 +1,28 @@
 pre[class*="language-"] {
     font-size: 20px !important;
 }
+
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    color: #34D5FF;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+    //background: #363636;
+}
+
+a {
+    color: #fff;
+}
+
+a:hover {
+    color: #34D5FF;
+}
+
+img {
+    max-width: 100%;
+}
+
+blockquote span {
+    border-left-color: #34D5FF !important;
+}

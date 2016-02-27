@@ -1,4 +1,8 @@
-const users = [
-  {"username": "user1"},
-  {"username": "user2"}
+const repositories = [
+  {name: "Repo A"},
+  {
+    name: "Repo B",
+    private: true
+  },
+  {name: "Repo C"}
 ];
