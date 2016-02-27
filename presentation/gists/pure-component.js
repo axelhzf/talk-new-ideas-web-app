@@ -1,0 +1,1 @@
+render(state, props) => vDom
