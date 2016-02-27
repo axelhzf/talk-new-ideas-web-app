@@ -5,18 +5,13 @@ var webpack = require("webpack");
 
 module.exports = {
   devtool: "source-map",
-  entry: [
-  //"webpack-hot-middleware/client",
-  "babel-polyfill",
-  "./index"
-  ],
+  entry: ["babel-polyfill", "./index"],
   output: {
     path: path.join(__dirname, "dist"),
     filename: "bundle.js",
-    publicPath: "/dist/"
+    publicPath: "/gh-pages/"
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {

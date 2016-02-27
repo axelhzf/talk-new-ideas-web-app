@@ -9,9 +9,8 @@ module.exports = {
     "./index"
   ],
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "bundle.js",
-    publicPath: "/dist/"
+    path: path.join(__dirname, "gh-pages", "dist"),
+    filename: "bundle.js"
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -32,7 +31,7 @@ module.exports = {
       loader: "html-loader!markdown-loader?gfm=false"
     }, {
       test: /\.(js|jsx)$/,
-      exclude: /node_modules/,
+      exclude: [/node_modules/, /gists/],
       loader: "babel-loader"
     }, {
       test: /\.css$/,
