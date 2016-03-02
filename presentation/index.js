@@ -240,16 +240,6 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading>Om</Heading>
-            <List>
-              <ListItem>ClojureScript interface to React</ListItem>
-              <ListItem>Data structures in clojure are immutable</ListItem>
-              <ListItem>Because of Immutable data Om can deliver even better results than using React out of the box</ListItem>
-            </List>
-            <p><a href="http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/">http://swannodette.github.io/2013/12/17/the-future-of-javascript-mvcs/</a></p>
-          </Slide>
-
-          <Slide>
             <Heading caps size={2}>Problem #2</Heading>
             <Heading caps fit>SPA have become </Heading>
             <Heading caps fit>increasingly complicated</Heading>
