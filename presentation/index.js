@@ -104,39 +104,6 @@ export default class Presentation extends React.Component {
           </Slide>
 
           <Slide>
-            <Heading fit caps>Update DOM strategies</Heading>
-            <List>
-              <ListItem>Detect what has changed and update the DOM</ListItem>
-              <ListItem>Re-render everything</ListItem>
-            </List>
-          </Slide>
-
-          <Slide>
-            <Heading fit caps>Detect changes</Heading>
-            <List>
-              <ListItem>Used by frameworks like Angular</ListItem>
-              <ListItem>How to detect changes on big and complex data structures?</ListItem>
-              <ListItem><code>$digest</code> cycle to detect changes</ListItem>
-              <ListItem><code>$watchers</code> can mutate the <code>$scope</code>, <code>$digest</code> needs to run until nothing change</ListItem>
-            </List>
-          </Slide>
-
-          <Slide>
-            <Heading caps><code>$digest</code> cycle</Heading>
-            <CodePane lang="js" source={require("raw!./gists/dom-updates3.js")}/>
-           </Slide>
-
-          <Slide>
-            <Heading caps>Performance</Heading>
-            <List>
-              <ListItem>Anything faster than 50 ms is imperceptible</ListItem>
-              <ListItem>Around 2000 bindings is where you start to see problems</ListItem>
-              <ListItem>The data binding can cause performance issues on complex pages.</ListItem>
-            </List>
-            <p><small><a href="http://stackoverflow.com/questions/9682092/how-does-data-binding-work-in-angularjs/9693933#9693933">http://stackoverflow.com/questions/9682092/how-does-data-binding-work-in-angularjs/9693933#9693933</a></small></p>
-          </Slide>
-
-          <Slide>
             <Heading caps fit>Re-render everything</Heading>
             <List>
               <ListItem>Used by frameworks like React</ListItem>
@@ -154,16 +121,6 @@ export default class Presentation extends React.Component {
               <ListItem>Compare the new and the old tree using <code>reconciliation</code></ListItem>
               <ListItem>Creates a batch of DOM updates</ListItem>
             </List>
-          </Slide>
-
-          <Slide>
-            <Heading caps>Reconciliation</Heading>
-            <List>
-              <ListItem>Generating the minimum number of operations to transform one tree into another</ListItem>
-              <ListItem>O(n<sup>3</sup>) where n is the number of nodes in the three</ListItem>
-              <ListItem>React implements a non-optimal O(n) algorithm using heuristics</ListItem>
-            </List>
-            <small><a href="https://facebook.github.io/react/docs/reconciliation.html">https://facebook.github.io/react/docs/reconciliation.html</a></small>
           </Slide>
 
           <Slide>
