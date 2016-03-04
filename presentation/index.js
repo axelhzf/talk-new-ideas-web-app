@@ -60,7 +60,7 @@ export default class Presentation extends React.Component {
         <Deck transition={["slide"]} transitionDuration={100} progress="bar">
           <Slide>
             <Heading size={1} fit caps lineHeight={1} textColor="tertiary">
-              New ideas on
+              New ideas for
             </Heading>
             <Heading size={2} fit caps lineHeight={1} textColor="secondary">
               Web App Development
